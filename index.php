@@ -44,6 +44,8 @@ define( 'DefaultSize', 42 );
 /** 最大文件尺寸, 如果不需要限制，可以考虑设置为 -1，但是请注意，占位图最大406 */
 define( 'MaxSize', 80 );
 
+/** 将头像文件分目录存放 **/
+define('SplitImage', true);
 
 /** 过期时间为30天 **/
 define( 'ExpireDate', 259200 );
@@ -104,8 +106,15 @@ function process( $hash, $size = DefaultSize, $default = '', $debugMode = false 
     $debugMode = $debugMode || DebugMode;
     // 调试信息保存
     $debugInfo = Array();
-    // 形成诸如 /avatar/cache/md5.Size的文件缓存
-    $filePath = $scriptDir . $subDir . $file . '.' . $size;
+
+    // 如果使用分目录存放图片的功能
+    if(SplitImage){
+        // 形成诸如 /avatar/cache/70a2/2912/93cd/289a/e057/3b6c/db7d/791e/$file.$size的文件缓存
+        $filePath = implode(str_split($hash, 4), '/') . '/';
+    }else{
+        // 形成诸如 /avatar/cache/md5.Size的文件缓存
+        $filePath = $scriptDir . $subDir . $file . '.' . $size;
+    }
 
     // 临时参数
     $params = array(
@@ -127,6 +136,10 @@ function process( $hash, $size = DefaultSize, $default = '', $debugMode = false 
     $tryCache = false;
     // 如果文件（包括默认占位图）不存在
     if ( ! file_exists( $params['path'] ) ) {
+        // 尝试创建目录
+        if(SplitImage){
+            @mkdir(dirname($params['path']), 755, true);
+        }
         // 查看文件默认占位图是否存在（只可能为PNG）
         if ( ! file_exists( $params['path'] . $defExt . '.is.png' ) ) {
             $debugMode && array_push( $debugInfo, "2.文件不存在，尝试缓存文件:" . $params['path'] );
