@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Avatar Demo</title>
+</head>
+<body>
+
+<h2>同步输出的头像</h2>
+<ul>
+    <li><span>不存在的头像（默认尺寸）</span><img src="http://assets.soulteary.com/avatar/25b32aea0632d90b8b232d382d08d228"/></li>
+    <li><span>存在的头像（默认尺寸）</span><img src="http://assets.soulteary.com/avatar/70a2291293cd289ae0573b6cdb7d791e"/></li>
+    <li><span>存在的头像（80x80尺寸）</span><img src="http://assets.soulteary.com/avatar/70a2291293cd289ae0573b6cdb7d791e/80"/></li>
+</ul>
+
+
+<h2>异步输出的头像</h2>
+<ul>
+    <li><span>不存在的头像（默认尺寸）</span><img class="defer-img" data-src="http://assets.soulteary.com/avatar/25b32aea0632d90b8b232d382d08d228"/></li>
+    <li><span>存在的头像（默认尺寸）</span><img class="defer-img" data-src="http://assets.soulteary.com/avatar/70a2291293cd289ae0573b6cdb7d791e"/></li>
+    <li><span>存在的头像（80x80尺寸）</span><img class="defer-img" data-src="http://assets.soulteary.com/avatar/70a2291293cd289ae0573b6cdb7d791e/80"/></li>
+</ul>
+
+<script>
+    if (!document.getElementsByClassName) {
+        document.getElementsByClassName = function (className, element) {
+            var children = (element || document).getElementsByTagName('*');
+            var elements = [];
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
+                var classNames = child.className.split(' ');
+                for (var j = 0; j < classNames.length; j++) {
+                    if (classNames[j] == className) {
+                        elements.push(child);
+                        break;
+                    }
+                }
+            }
+            return elements;
+        };
+    }
+    var deferImg = document.getElementsByClassName('defer-img');
+    function render(img) {
+        img.setAttribute('src', img.getAttribute('data-src'));
+    }
+    for (var i = 0, j = deferImg.length; i < j; i++) {
+        render(deferImg[i]);
+    }
+</script>
+
+</body>
+</html>
