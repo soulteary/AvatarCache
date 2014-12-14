@@ -35,3 +35,7 @@
 - placeholder 如果不需要那么多尺寸（你自己限制几种的话，那么无须上传那么多尺寸的图片，虽然也不大）。
 - 如果你使用第三方评论系统，可以使用js来替换页面中的评论头像地址。
     - 不完美的解决方案: [example](demo/example.js)
+- 如果使用PHP 5.5+，可能默认是没有curl库的:
+    - 请执行以下命令安装：
+    - `sudo apt-get install php5-curl`
+    - `sudo service apache2 restart`
