@@ -29,6 +29,31 @@
 
 [Demo Page](http://assets.soulteary.com/avatar/demo/demo.html)
 
+## Nginx
+
+如果你使用的是nginx，不妨根据自己的情况，添加如下配置，使脚本正常运行。
+
+```
+# Avatar
+location ~ /avatar {
+   if (!-f $request_filename) {
+        rewrite ".*(\w{32})((\/)?(\d+)?)?$" /avatar/index.php?r=$1&s=$4 break;
+        proxy_pass http://$host;
+    }
+}
+```
+
+如果你希望一定程度上防止站外滥用。
+
+```
+valid_referers none blocked server_names *.your_domain.com your_domain.com;
+if ($invalid_referer) {
+    rewrite ^/ "http://www.baidu.com/s?wd=妈妈说不要盗链" last;
+    return 404;
+}
+
+```
+
 ## 额外说明
 
 - Demo 中默认是以我的assets路径为地址的，因为有Refer限制，请下载源码后修改为你的地址访问，或者访问在线Demo。
