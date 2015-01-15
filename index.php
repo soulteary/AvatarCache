@@ -22,7 +22,7 @@
 define( 'Token', 'PLEASE_UPDATE_YOUR_TOKEN' );
 
 
-define( 'version', '2014.12.31' );
+define( 'version', '2015.01.15' );
 
 /** 静态域名定义 **/
 define( 'AssetsDomain', 'http://assets.soulteary.com/' );
@@ -458,9 +458,13 @@ function bootstrap() {
 function htaccess() {
 
     $ableRewrite = false;
+    $isNginx = false;
     /** 检查是否支持路径重写 */
-    if ( isset( $GLOBALS['is_nginx'] ) ) {
-        $ableRewrite = true;
+    if ( isset( $_SERVER['SERVER_SOFTWARE'] ) ) {
+        if ( strpos( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
+            $ableRewrite = true;
+            $isNginx = true;
+        }
     } else {
         $subMod = 'mod_rewrite';
         if ( function_exists( 'apache_get_modules' ) ) {
@@ -479,6 +483,7 @@ function htaccess() {
     }
 
     if ( $ableRewrite ) {
+        if ( !$isNginx ) {
 
         $rules = <<<EOF
 # apache access rule for avatar by soulteary
@@ -524,6 +529,11 @@ EOF;
 
         createHtaccess( '[占位图目录]', ScriptDir . 'placeholder/', '.htaccess', $subRules );
 
+        }else{
+
+            die("请参考文档搞定Nginx的配置。");
+
+        }
     } else {
         die( "请确认服务器支持重写URL。" );
     }
