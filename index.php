@@ -498,7 +498,7 @@ function htaccess() {
     if ( $ableRewrite ) {
         if ( !$isNginx ) {
 
-        $rules = <<<EOF
+            $rules = <<<EOF
 # apache access rule for avatar by soulteary
 
 <IfModule mod_expires.c>
@@ -531,16 +531,16 @@ RewriteRule (\w{32})\/?(\d+)?$ /avatar/index.php?r=$1&s=$2 [L]
 </IfModule>
 EOF;
 
-        createHtaccess( '[主要目录]', ScriptDir, '.htaccess', $rules );
+            createHtaccess( '[主要目录]', ScriptDir, '.htaccess', $rules );
 
-        $subRules = '# apache access rule for avatar by soulteary' . "\n\n";
-        $subRules .= 'RewriteEngine on' . "\n";
-        $subRules .= 'RewriteCond %{HTTP_REFERER} !^https?:\/\/([A-Za-z0-9.-]{2,})?(' . PrivateDomain . ')(:\d+)? [NC]' . "\n";
-        $subRules .= 'RewriteRule .* http://www.baidu.com/s?wd=妈妈说不要盗链 [R,NC,L]' . "\n";
+            $subRules = '# apache access rule for avatar by soulteary' . "\n\n";
+            $subRules .= 'RewriteEngine on' . "\n";
+            $subRules .= 'RewriteCond %{HTTP_REFERER} !^https?:\/\/([A-Za-z0-9.-]{2,})?(' . PrivateDomain . ')(:\d+)? [NC]' . "\n";
+            $subRules .= 'RewriteRule .* http://www.baidu.com/s?wd=妈妈说不要盗链 [R,NC,L]' . "\n";
 
-        createHtaccess( '[缓存目录]', ScriptDir . 'cache/', '.htaccess', $subRules );
+            createHtaccess( '[缓存目录]', ScriptDir . 'cache/', '.htaccess', $subRules );
 
-        createHtaccess( '[占位图目录]', ScriptDir . 'placeholder/', '.htaccess', $subRules );
+            createHtaccess( '[占位图目录]', ScriptDir . 'placeholder/', '.htaccess', $subRules );
 
         }else{
 
