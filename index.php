@@ -22,7 +22,7 @@
 define( 'Token', 'PLEASE_UPDATE_YOUR_TOKEN' );
 
 
-define( 'version', '2015.01.15' );
+define( 'version', '2015.12.27' );
 
 /** 静态域名定义 **/
 define( 'AssetsDomain', 'http://assets.soulteary.com/' );
@@ -108,10 +108,10 @@ function process( $hash, $size = DefaultSize, $default = '', $debugMode = false 
     $debugInfo = Array();
 
     // 如果使用分目录存放图片的功能
-    if(SplitImage){
-        // 形成诸如 /avatar/cache/70a2/2912/93cd/289a/e057/3b6c/db7d/791e/$file.$size的文件缓存
-        $filePath = implode(str_split($hash, 4), '/') . '/';
-    }else{
+    if (SplitImage) {
+        // 形成诸如 /avatar/cache/70a2/2912/93cd/289a/e057/3b6c/db7d/791e/$size的文件缓存
+        $filePath = $scriptDir . $subDir . implode(str_split($hash, 4), '/') . '/' . $size;
+    } else {
         // 形成诸如 /avatar/cache/md5.Size的文件缓存
         $filePath = $scriptDir . $subDir . $file . '.' . $size;
     }
